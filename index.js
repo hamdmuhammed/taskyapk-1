@@ -6,7 +6,7 @@ var state={
 var taskContents = document.querySelector(".task_contents");
 var taskModals = document.querySelector(".task__modal__body");
 
-var htmlTaskContent = ({id, url, title, description, type}) =>`
+var htmlTaskContent = ({id, url, title, description, type}) => `{
     <div class='col-md-6 col-lg-4 mt-3' id=${id} key=${id}>
         <div class='card shadow-sm task__card'>
             <div class='card-header d-flex justify-content-end task__card__header'>
@@ -33,4 +33,43 @@ var htmlTaskContent = ({id, url, title, description, type}) =>`
             </div>
         </div>
     </div>
-`
+    };
+`;
+
+var htmlTaskmodal = ({id, url, title, description, type}) =>{
+  var date=new Date(parseInt(id));
+  return `
+     <div id${id}>
+      ${
+        url &&
+        `<img width="100%" src=${url} alt="card img cap" class="card-img-top md-3 rounded-lg" />`
+      }
+      <strong class='text-sm text-muted'>Created on ${date.todatestring()}</strong>
+      <h2 class='my-3'>${title}</h2>
+      <p class='lead'>${description}</p>
+    </div>
+`;
+};
+
+var updateLocalStorage = () => {
+  lacalStorage.setItem('task',JSON.stringify({tasks: state.taskList,}))
+}
+
+var loadinitialData = () => {
+  var localStorageCopy = JSON.parse(localStorage.tasks)
+  if{localStorageCopy} state.taskList = localStorageCopy.tasks;
+
+  state.taskList.map((cardDate)=>{
+    taskContents.insertAdjacentHTML("beforeend",htmlTaskContent(cardDate));
+  })
+}
+
+var handleSubmit = (event) => {
+  const id = `${Date.now()}`;
+  const input = {
+    url : document.getElementById("imgURL").value,
+    title : document.getElementById("taskTitle").value,
+    type : document.getElementById("tags").value,
+    description : document.getElementById("taskDEscription").value
+  }
+}
